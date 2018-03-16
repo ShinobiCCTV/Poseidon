@@ -245,7 +245,6 @@ var Poseidon = function () {
     }, {
         key: 'start',
         value: function start() {
-            //        this._monitor
             //todo maybe pass namespace as parameter to start(namespace) to accommodate cycling feature
             if (this._playing === true) {
                 this.stop();
@@ -256,7 +255,8 @@ var Poseidon = function () {
                 this._startstop.disabled = true;
             }
             this._playing = true;
-            this._socket = io(this._monitor.url, { transports: ['websocket'], forceNew: false });
+            var _this = this;
+            this._socket = io(_this._monitor.url, { transports: ['websocket'], forceNew: false });
             this._addSocketEvents();
             if (this._startstop) {
                 this._startstop.disabled = false;
@@ -375,7 +375,7 @@ var Poseidon = function () {
             URL.revokeObjectURL(this._video.src);
             this._mediaSource.duration = Number.POSITIVE_INFINITY;
             this._sourceBuffer = this._mediaSource.addSourceBuffer(this._mime);
-            this._sourceBuffer.mode = 'sequence';
+            this._sourceBuffer.mode = 'segments';
             this._addSourceBufferEvents();
             this._sourceBuffer.appendBuffer(this._init);
             //this._video.setAttribute('poster', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQwIiBoZWlnaHQ9IjM0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxnPjxyZWN0IHg9Ii0xIiB5PSItMSIgd2lkdGg9IjY0MiIgaGVpZ2h0PSIzNiIgZmlsbD0ibm9uZSIvPjwvZz48Zz48dGV4dCBmaWxsPSIjMDAwIiBzdHJva2Utd2lkdGg9IjAiIHg9IjE2MCIgeT0iMjYiIGZvbnQtc2l6ZT0iMjYiIGZvbnQtZmFtaWx5PSJIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIHhtbDpzcGFjZT0icHJlc2VydmUiIHN0cm9rZT0iIzAwMCI+cmVxdWVzdGluZyBtZWRpYSBzZWdtZW50czwvdGV4dD48L2c+PC9zdmc+');
